@@ -24,10 +24,10 @@ private:
 	Node* root_;
 
 	Node* insertNode(Node* node, const std::string& word);
-	Node* rotateRight(Node* node);
-	Node* rotateLeft(Node* node);
-	int getHeight(Node* node);
-	int getBalance(Node* node);
+	static Node* rotateRight(Node* node);
+	static Node* rotateLeft(Node* node);
+	static int getHeight(Node* node);
+	static int getBalance(Node* node);
 };
 
 #endif
