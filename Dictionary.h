@@ -2,6 +2,7 @@
 #define AVLDICTIONARY_DICTIONARY_H
 
 #include <string>
+#include <map>
 
 class Dictionary {
 private:
@@ -18,12 +19,14 @@ private:
 public:
 	Dictionary();
 	void insert(const std::string& word);
-	int getCount(const std::string& word);
+	[[nodiscard]] int getCount(const std::string& word) const;
+    [[nodiscard]] std::map<std::string, int> getTable() const;
 
 private:
 	Node* root_;
 
 	Node* insertNode(Node* node, const std::string& word);
+    static void addWordToTable(std::map<std::string, int>& table, Node* node);
 	static Node* rotateRight(Node* node);
 	static Node* rotateLeft(Node* node);
 	static int getHeight(Node* node);

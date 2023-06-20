@@ -16,6 +16,29 @@ void Dictionary::insert(const std::string& word) {
     root_ = insertNode(root_, word);
 }
 
+std::map<std::string, int> Dictionary::getTable() const {
+    std::map<std::string, int> table;
+    addWordToTable(table, root_);
+
+    return table;
+}
+
+void Dictionary::addWordToTable(std::map<std::string, int>& table, Node *node) {
+    if (node == nullptr) return;
+
+    std::string word = node->word;
+    if (table.find(word) != table.end()) {
+        table[word]++;
+    }
+    else {
+        table[word] = 1;
+    }
+
+    addWordToTable(table, node->left);
+    addWordToTable(table, node->left);
+}
+
+
 Dictionary::Node* Dictionary::insertNode(Node* node, const std::string &word) {
     if (node == nullptr) {
         return new Node(word);
@@ -99,8 +122,8 @@ int Dictionary::getBalance(Node* node) {
     return getHeight(node->left) - getHeight(node->right);
 }
 
-int Dictionary::getCount(const std::string& word) {
-    Node* current = root;
+int Dictionary::getCount(const std::string& word) const {
+    Node* current = root_;
 
     while (current != nullptr) {
         if (word == current->word) {
