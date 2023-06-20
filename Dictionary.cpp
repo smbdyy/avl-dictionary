@@ -12,10 +12,6 @@ Dictionary::Dictionary() {
     root_ = nullptr;
 }
 
-void Dictionary::insert(const std::string& word) {
-    root_ = insertNode(root_, word);
-}
-
 std::map<std::string, int> Dictionary::getTable() const {
     std::map<std::string, int> table;
     addWordToTable(table, root_);
@@ -36,6 +32,10 @@ void Dictionary::addWordToTable(std::map<std::string, int>& table, Node *node) {
 
     addWordToTable(table, node->left);
     addWordToTable(table, node->left);
+}
+
+void Dictionary::insert(const std::string& word) {
+    root_ = insertNode(root_, word);
 }
 
 
