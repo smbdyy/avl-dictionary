@@ -1,5 +1,5 @@
-#ifndef DICTIONARY_H
-#define DICTIONARY_H
+#ifndef AVLDICTIONARY_DICTIONARY_H
+#define AVLDICTIONARY_DICTIONARY_H
 
 #include <string>
 
