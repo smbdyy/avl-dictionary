@@ -1,12 +1,12 @@
 #include "IOFormatGuard.h"
 
 IOFormatGuard::IOFormatGuard(std::basic_ios< char >& s) :
-  s_(s),
-  fill_(s.fill()),
-  fmt_(s.flags())
+    s_(s),
+    fill_(s.fill()),
+    flags_(s.flags())
 {}
 IOFormatGuard::~IOFormatGuard()
 {
-  s_.fill(fill_);
-  s_.flags(fmt_);
+    s_.fill(fill_);
+    s_.flags(flags_);
 }
