@@ -3,10 +3,10 @@
 
 #include <iomanip>
 
-class iofmtguard {
+class IOFormatGuard {
 public:
-  explicit iofmtguard(std::basic_ios< char >& s);
-  ~iofmtguard();
+  explicit IOFormatGuard(std::basic_ios< char >& s);
+  ~IOFormatGuard();
 private:
   std::basic_ios< char >& s_;
   char fill_;
