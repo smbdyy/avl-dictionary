@@ -10,6 +10,7 @@ Command::Command(std::istream& in, std::ostream& out, Dictionary& dict) :
 void Command::help() {
     IOFormatGuard guard(out_);
     out_ << "Available commands:\n" <<
+    "help -- get this help message\n" <<
     "readFromFile <filename> -- read text from file\n" <<
     "printTable -- print 'word-frequency' table\n" <<
     "printFrequency <word> -- print frequency of word\n" <<
