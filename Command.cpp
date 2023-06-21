@@ -1,3 +1,5 @@
+#include <fstream>
+#include <vector>
 #include "Command.h"
 #include "IOFormatGuard.h"
 
@@ -21,4 +23,53 @@ void Command::help() {
     "enter -- enter text manually\n" <<
     "printCommand <filename> <command> -- print command output to file\n" <<
     "intersection <filename1> <filename2> -- read intersection of two files\n";
+}
+
+std::string Command::readTextFromFile(const std::string& filename) {
+    std::ifstream file(filename);
+    std::ostringstream oss;
+    std::string line;
+
+    if (file.is_open()) {
+        while (std::getline(file, line)) {
+            oss << line << '\n';
+        }
+        file.close();
+    } else {
+        IOFormatGuard guard(out_);
+        out_ << "Cannot open file: " << filename << std::endl;
+    }
+
+    return oss.str();
+}
+
+std::vector<std::string> splitTextIntoWords(const std::string& text) {
+    std::vector<std::string> words;
+    std::istringstream iss(text);
+    std::string word;
+
+    while (iss >> word) {
+        while (!word.empty() && !isalpha(word.back())) {
+            word.pop_back();
+        }
+
+        if (!word.empty()) {
+            words.push_back(word);
+        }
+    }
+
+    return words;
+}
+
+void Command::readFromFile(const std::string& filename) {
+    std::string text = readTextFromFile(filename);
+    if (text.empty()) return;
+
+    std::vector<std::string> words = splitTextIntoWords(text);
+    for (const auto& word : words) {
+        dict_.insert(word);
+    }
+
+    IOFormatGuard guard(out_);
+    out_ << "Words from file successfully added";
 }

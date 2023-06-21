@@ -8,7 +8,7 @@ class Command {
 public:
     Command(std::istream& in, std::ostream& out, Dictionary& dict);
     void help();
-    void readFromFile();
+    void readFromFile(const std::string& filename);
     void printTable();
     void printFrequency();
     void printTop();
@@ -22,6 +22,8 @@ private:
     Dictionary dict_;
     std::ostream& out_;
     std::istream& in_;
+
+    std::string readTextFromFile(const std::string& filename);
 };
 
 #endif
