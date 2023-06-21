@@ -2,6 +2,7 @@
 #define AVLDICTIONARY_COMMAND_H
 
 #include <iostream>
+#include <string>
 #include "Dictionary.h"
 
 class Command {
@@ -25,6 +26,8 @@ private:
 
     [[nodiscard]] std::string readTextFromFile(const std::string& filename) const;
     [[nodiscard]] std::multimap<int, std::string, std::greater<>> getSortedTable() const;
+    [[nodiscard]] std::string readTextFromConsole() const;
+    void addWordsFromText(const std::string& text);
 };
 
 #endif

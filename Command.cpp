@@ -65,13 +65,17 @@ void Command::readFromFile(const std::string& filename) {
     const std::string& text = readTextFromFile(filename);
     if (text.empty()) return;
 
+    addWordsFromText(text);
+
+    IOFormatGuard guard(out_);
+    out_ << "Words from file successfully added\n";
+}
+
+void Command::addWordsFromText(const std::string& text) {
     const std::vector<std::string>& words = splitTextIntoWords(text);
     for (const auto& word : words) {
         dict_.insert(word);
     }
-
-    IOFormatGuard guard(out_);
-    out_ << "Words from file successfully added\n";
 }
 
 void Command::printTable() const {
@@ -151,3 +155,25 @@ void Command::deleteWord(const std::string& word) {
     out_ << "Word successfully deleted\n";
 }
 
+std::string Command::readTextFromConsole() const {
+    std::string text;
+    std::string line;
+
+    IOFormatGuard guard(in_);
+    while (std::getline(in_, line)) {
+        text += line + "\n";
+    }
+
+    return text;
+}
+
+void Command::enterText() {
+    IOFormatGuard guard(out_);
+    out_ << "Enter the text (press Ctrl+Z on Windows or Ctrl+D on Unix to complete the input):\n";
+
+    const std::string& text = readTextFromConsole();
+    if (text.empty()) return;
+
+    addWordsFromText(text);
+    out_ << "Words from input successfully added";
+}
