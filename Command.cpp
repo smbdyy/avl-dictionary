@@ -134,6 +134,10 @@ void Command::printEnd(int n) const {
     }
 }
 
+int Dictionary::getUniqueWordsCount() const {
+    return uniqueWordsCount_;
+}
+
 void Command::printCount() const {
     IOFormatGuard guard(out_);
     out_ << "Unique words count: " << dict_.getUniqueWordsCount();
