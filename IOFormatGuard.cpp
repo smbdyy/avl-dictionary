@@ -1,12 +1,13 @@
 #include "IOFormatGuard.h"
 
-IOFormatGuard::IOFormatGuard(std::basic_ios< char >& s) :
-    s_(s),
-    fill_(s.fill()),
-    flags_(s.flags())
+IOFormatGuard::IOFormatGuard(std::basic_ios<char>& stream) :
+    stream_(stream),
+    fill_(stream.fill()),
+    flags_(stream.flags())
 {}
+
 IOFormatGuard::~IOFormatGuard()
 {
-    s_.fill(fill_);
-    s_.flags(flags_);
+    stream_.fill(fill_);
+    stream_.flags(flags_);
 }

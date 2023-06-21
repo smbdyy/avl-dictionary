@@ -5,11 +5,11 @@
 
 class IOFormatGuard {
 public:
-    explicit IOFormatGuard(std::basic_ios< char >& s);
+    explicit IOFormatGuard(std::basic_ios<char>& stream);
     ~IOFormatGuard();
 private:
-    std::basic_ios< char >& s_;
+    std::basic_ios<char>& stream_;
     char fill_;
-    std::basic_ios< char >::fmtflags flags_;
+    std::basic_ios<char>::fmtflags flags_;
 };
 #endif
