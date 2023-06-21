@@ -23,16 +23,10 @@ std::map<std::string, int> Dictionary::getTable() const {
 void Dictionary::addWordToTable(std::map<std::string, int>& table, Node *node) {
     if (node == nullptr) return;
 
-    std::string word = node->word;
-    if (table.find(word) != table.end()) {
-        table[word]++;
-    }
-    else {
-        table[word] = 1;
-    }
+    table[node->word] = node->count;
 
     addWordToTable(table, node->left);
-    addWordToTable(table, node->left);
+    addWordToTable(table, node->right);
 }
 
 void Dictionary::insert(const std::string& word) {

@@ -99,7 +99,7 @@ void Command::printTable() const {
 }
 
 void Command::printFrequency(std::ostream& out, const std::string& word) const {
-    out << dict_.getCount(word);
+    out << dict_.getCount(word) << "\n";
 }
 
 void Command::printFrequency(const std::string& word) const {
@@ -175,7 +175,7 @@ std::string Command::readTextFromConsole() const {
     std::string text;
     std::string line;
 
-    while (std::getline(in_, line)) {
+    while (std::getline(in_, line) && line != "{end}") {
         text += line + "\n";
     }
 
@@ -183,13 +183,13 @@ std::string Command::readTextFromConsole() const {
 }
 
 void Command::enterText() {
-    out_ << "Enter the text (press Ctrl+Z on Windows or Ctrl+D on Unix to complete the input):\n";
+    out_ << "Enter the text (enter {end} at new line after the end of input):\n";
 
     const std::string& text = readTextFromConsole();
     if (text.empty()) return;
 
     addWordsFromText(text);
-    out_ << "Words from input successfully added";
+    out_ << "Words from input successfully added\n";
 }
 
 std::vector<std::string> findCommonWords(

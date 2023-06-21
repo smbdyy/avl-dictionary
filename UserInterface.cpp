@@ -12,8 +12,8 @@ void UserInterface::run() {
     while (readCommandLine()) {}
 }
 
-void printInvalidCommandMessage() {
-    std::cerr << "Invalid command\n";
+void UserInterface::printInvalidCommandMessage() {
+    out_ << "Invalid command\n";
 }
 
 bool UserInterface::readCommandLine() {
@@ -49,6 +49,9 @@ void UserInterface::mapCommand(std::istringstream& iss, std::ostream& printComma
     else if (command == "printTable") {
         commandInterface_.printTable(printCommandOutput);
     }
+    else if (command == "printCount") {
+        commandInterface_.printCount(printCommandOutput);
+    }
     else if (command == "printFrequency") {
         callPrintFrequencyCommand(iss, printCommandOutput);
     }
@@ -69,6 +72,9 @@ void UserInterface::mapCommand(std::istringstream& iss, std::ostream& printComma
     }
     else if (command == "intersection") {
         callIntersectionCommand(iss);
+    }
+    else {
+        printInvalidCommandMessage();
     }
 }
 

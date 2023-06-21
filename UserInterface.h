@@ -13,6 +13,7 @@ private:
     std::istream& in_;
     std::ostream& out_;
 
+    void printInvalidCommandMessage();
     bool readCommandLine();
     void mapCommand(std::istringstream& iss, std::ostream& printCommandOutput);
     void mapCommand(std::istringstream& iss);
