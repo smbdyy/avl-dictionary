@@ -134,11 +134,20 @@ void Command::printEnd(int n) const {
     }
 }
 
-int Dictionary::getUniqueWordsCount() const {
-    return uniqueWordsCount_;
-}
-
 void Command::printCount() const {
     IOFormatGuard guard(out_);
-    out_ << "Unique words count: " << dict_.getUniqueWordsCount();
+    out_ << "Unique words count: " << dict_.getUniqueWordsCount() << "\n";
 }
+
+void Command::deleteWord(const std::string& word) {
+    IOFormatGuard guard(out_);
+
+    if (dict_.getCount(word) == 0) {
+        out_ << "No such word in dictionary\n";
+        return;
+    }
+
+    dict_.deleteWord(word);
+    out_ << "Word successfully deleted\n";
+}
+

@@ -19,6 +19,7 @@ private:
 public:
 	Dictionary();
 	void insert(const std::string& word);
+    void deleteWord(const std::string& word);
 	[[nodiscard]] int getCount(const std::string& word) const;
     [[nodiscard]] std::map<std::string, int> getTable() const;
     [[nodiscard]] int getUniqueWordsCount() const;
@@ -28,6 +29,7 @@ private:
     int uniqueWordsCount_;
 
 	Node* insertNode(Node* node, const std::string& word);
+    Node* deleteNode(Node* node, const std::string& word);
     static void addWordToTable(std::map<std::string, int>& table, Node* node);
 	static Node* rotateRight(Node* node);
 	static Node* rotateLeft(Node* node);

@@ -14,7 +14,7 @@ public:
     void printTop(int n) const;
     void printEnd(int n) const;
     void printCount() const;
-    void deleteWord();
+    void deleteWord(const std::string& word);
     void enterText();
     void printCommandToFile();
     void intersection();

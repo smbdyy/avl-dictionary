@@ -81,6 +81,63 @@ Dictionary::Node* Dictionary::insertNode(Node* node, const std::string &word) {
     return node;
 }
 
+void Dictionary::deleteWord(const std::string& word) {
+    if (getCount(word) == 0) return;
+    root_ = deleteNode(root_, word);
+    uniqueWordsCount_--;
+}
+
+Dictionary::Node* Dictionary::deleteNode(Node* node, const std::string& word) {
+    if (node == nullptr) {
+        return nullptr;
+    }
+
+    if (word < node->word) {
+        node->left = deleteNode(node->left, word);
+    }
+    else if (word > node->word) {
+        node->right = deleteNode(node->right, word);
+    }
+    else {
+        Node* temp;
+        if (node->left == nullptr) {
+            temp = node->right;
+        } else if (node->right == nullptr) {
+            temp = node->left;
+        } else {
+            temp = node->right;
+            while (temp->left != nullptr) {
+                temp = temp->left;
+            }
+            node->word = temp->word;
+            node->count = temp->count;
+            node->right = deleteNode(node->right, temp->word);
+        }
+        delete node;
+        return temp;
+    }
+
+    node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+
+    int balance = getBalance(node);
+    if (balance > 1 && getBalance(node->left) >= 0) {
+        return rotateRight(node);
+    }
+    if (balance > 1 && getBalance(node->left) < 0) {
+        node->left = rotateLeft(node->left);
+        return rotateRight(node);
+    }
+    if (balance < -1 && getBalance(node->right) <= 0) {
+        return rotateLeft(node);
+    }
+    if (balance < -1 && getBalance(node->right) > 0) {
+        node->right = rotateRight(node->right);
+        return rotateLeft(node);
+    }
+
+    return node;
+}
+
 Dictionary::Node* Dictionary::rotateRight(Node* node) {
     Node* leftChild = node->left;
     Node* leftRightChild = leftChild->right;
@@ -140,4 +197,8 @@ int Dictionary::getCount(const std::string& word) const {
     }
 
     return 0;
+}
+
+int Dictionary::getUniqueWordsCount() const {
+    return uniqueWordsCount_;
 }
