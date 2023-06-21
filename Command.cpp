@@ -25,7 +25,7 @@ void Command::help() {
     "intersection <filename1> <filename2> -- read intersection of two files\n";
 }
 
-std::string Command::readTextFromFile(const std::string& filename) {
+std::string Command::readTextFromFile(const std::string& filename) const {
     std::ifstream file(filename);
     std::ostringstream oss;
     std::string line;
@@ -61,7 +61,7 @@ std::vector<std::string> splitTextIntoWords(const std::string& text) {
     return words;
 }
 
-void Command::readFromFile(const std::string& filename) {
+void Command::readFromFile(const std::string& filename) const {
     std::string text = readTextFromFile(filename);
     if (text.empty()) return;
 
@@ -72,4 +72,9 @@ void Command::readFromFile(const std::string& filename) {
 
     IOFormatGuard guard(out_);
     out_ << "Words from file successfully added";
+}
+
+void Command::printTable() {
+    std::map<std::string, int> table = dict_.getTable();
+
 }
