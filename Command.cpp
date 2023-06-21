@@ -37,7 +37,7 @@ std::string Command::readTextFromFile(const std::string& filename) const {
         file.close();
     } else {
         IOFormatGuard guard(out_);
-        out_ << "Cannot open file: " << filename << std::endl;
+        out_ << "Cannot open file: " << filename << "\n";
     }
 
     return oss.str();
@@ -62,19 +62,28 @@ std::vector<std::string> splitTextIntoWords(const std::string& text) {
 }
 
 void Command::readFromFile(const std::string& filename) {
-    std::string text = readTextFromFile(filename);
+    const std::string& text = readTextFromFile(filename);
     if (text.empty()) return;
 
-    std::vector<std::string> words = splitTextIntoWords(text);
+    const std::vector<std::string>& words = splitTextIntoWords(text);
     for (const auto& word : words) {
         dict_.insert(word);
     }
 
     IOFormatGuard guard(out_);
-    out_ << "Words from file successfully added";
+    out_ << "Words from file successfully added\n";
 }
 
-void Command::printTable() {
-    std::map<std::string, int> table = dict_.getTable();
+void Command::printTable() const {
+    const std::map<std::string, int>& table = dict_.getTable();
+    IOFormatGuard guard(out_);
 
+    if (table.empty()) {
+        out_ << "Dictionary is empty\n";
+        return;
+    }
+
+    for (const auto& [word, count] : table) {
+        out_ << word << " -- " << count << "\n";
+    }
 }

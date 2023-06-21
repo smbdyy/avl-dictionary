@@ -9,7 +9,7 @@ public:
     Command(std::istream& in, std::ostream& out, Dictionary& dict);
     void help();
     void readFromFile(const std::string& filename);
-    void printTable();
+    void printTable() const;
     void printFrequency();
     void printTop();
     void printEnd();
