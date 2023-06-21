@@ -18,14 +18,15 @@ void printInvalidCommandMessage() {
 
 bool UserInterface::readCommandLine() {
     std::string input;
-    std::getline(in_, input);
+    while (std::getline(in_, input)) {
+        if (input == "exit") {
+            return false;
+        }
 
-    if (input == "exit") {
-        return false;
+        std::istringstream iss(input);
+        mapCommand(iss);
     }
 
-    std::istringstream iss(input);
-    mapCommand(iss);
     return true;
 }
 

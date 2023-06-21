@@ -23,7 +23,7 @@ void Command::help() const {
     "enter -- enter text manually\n" <<
     "printCommand <filename> <command> -- print command output to file\n" <<
     "intersection <filename1> <filename2> -- read intersection of two files\n" <<
-    "exit";
+    "exit\n";
 }
 
 std::string Command::readTextFromFile(const std::string& filename) const {
