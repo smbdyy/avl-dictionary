@@ -7,12 +7,12 @@
 class Command {
 public:
     Command(std::istream& in, std::ostream& out, Dictionary& dict);
-    void help();
+    void help() const;
     void readFromFile(const std::string& filename);
     void printTable() const;
-    void printFrequency();
-    void printTop();
-    void printEnd();
+    void printFrequency(const std::string& word) const;
+    void printTop(int n) const;
+    void printEnd(int n) const;
     void printCount();
     void deleteWord();
     void enterText();
@@ -23,7 +23,8 @@ private:
     std::ostream& out_;
     std::istream& in_;
 
-    std::string readTextFromFile(const std::string& filename) const;
+    [[nodiscard]] std::string readTextFromFile(const std::string& filename) const;
+    [[nodiscard]] std::multimap<int, std::string, std::greater<>> getSortedTable() const;
 };
 
 #endif
