@@ -11,10 +11,15 @@ public:
     void help() const;
     void readFromFile(const std::string& filename);
     void printTable() const;
+    void printTable(std::ostream& out) const;
     void printFrequency(const std::string& word) const;
+    void printFrequency(std::ostream& out, const std::string& word) const;
     void printTop(int n) const;
+    void printTop(std::ostream& out, int n) const;
     void printEnd(int n) const;
+    void printEnd(std::ostream& out, int n) const;
     void printCount() const;
+    void printCount(std::ostream& out) const;
     void deleteWord(const std::string& word);
     void enterText();
     void intersection(const std::string& filename1, const std::string& filename2);

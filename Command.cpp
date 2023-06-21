@@ -83,9 +83,10 @@ inline void Command::addWordsFromText(const std::string& text) {
     addWords(words);
 }
 
-void Command::printTable() const {
+void Command::printTable(std::ostream& out) const {
     const std::map<std::string, int>& table = dict_.getTable();
-    IOFormatGuard guard(out_);
+    IOFormatGuard guard1(out);
+    IOFormatGuard guard2(out_);
 
     if (table.empty()) {
         out_ << "Dictionary is empty\n";
@@ -93,13 +94,21 @@ void Command::printTable() const {
     }
 
     for (const auto& [word, count] : table) {
-        out_ << word << " -- " << count << "\n";
+        out << word << " -- " << count << "\n";
     }
 }
 
+void Command::printTable() const {
+    printTable(out_);
+}
+
+void Command::printFrequency(std::ostream& out, const std::string& word) const {
+    IOFormatGuard guard(out);
+    out << dict_.getCount(word);
+}
+
 void Command::printFrequency(const std::string& word) const {
-    IOFormatGuard guard(out_);
-    out_ << dict_.getCount(word);
+    printFrequency(out_, word);
 }
 
 std::multimap<int, std::string, std::greater<>> Command::getSortedTable() const {
@@ -113,9 +122,10 @@ std::multimap<int, std::string, std::greater<>> Command::getSortedTable() const 
     return sortedTable;
 }
 
-void Command::printTop(int n) const {
+void Command::printTop(std::ostream& out, int n) const {
     const std::multimap<int, std::string, std::greater<>>& sortedTable = getSortedTable();
-    IOFormatGuard guard(out_);
+    IOFormatGuard guard1(out);
+    IOFormatGuard guard2(out_);
 
     if (sortedTable.empty()) {
         out_ << "Dictionary is empty\n";
@@ -124,13 +134,18 @@ void Command::printTop(int n) const {
 
     auto it = sortedTable.begin();
     for (int i = 0; i < n && it != sortedTable.end(); i++, it++) {
-        out_ << it->second << " -- " << it->first << "\n";
+        out << it->second << " -- " << it->first << "\n";
     }
 }
 
-void Command::printEnd(int n) const {
+void Command::printTop(int n) const {
+    printTop(out_, n);
+}
+
+void Command::printEnd(std::ostream& out, int n) const {
     const std::multimap<int, std::string, std::greater<>>& sortedTable = getSortedTable();
-    IOFormatGuard guard(out_);
+    IOFormatGuard guard1(out);
+    IOFormatGuard guard2(out_);
 
     if (sortedTable.empty()) {
         out_ << "Dictionary is empty\n";
@@ -139,13 +154,21 @@ void Command::printEnd(int n) const {
 
     auto it = sortedTable.rbegin();
     for (int i = 0; i < n && it != sortedTable.rend(); i++, it++) {
-        out_ << it->second << " -- " << it->first << "\n";
+        out << it->second << " -- " << it->first << "\n";
     }
 }
 
+void Command::printEnd(int n) const {
+    printEnd(out_, n);
+}
+
+void Command::printCount(std::ostream& out) const {
+    IOFormatGuard guard(out);
+    out << "Unique words count: " << dict_.getUniqueWordsCount() << "\n";
+}
+
 void Command::printCount() const {
-    IOFormatGuard guard(out_);
-    out_ << "Unique words count: " << dict_.getUniqueWordsCount() << "\n";
+    printCount(out_);
 }
 
 void Command::deleteWord(const std::string& word) {
