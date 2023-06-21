@@ -7,7 +7,6 @@ include_directories(.)
 
 add_executable(avldictionary
         Dictionary.cpp
-        IOFormatGuard.cpp
         Command.cpp
         main.cpp
         UserInterface.cpp)

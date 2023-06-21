@@ -1,8 +1,8 @@
 #include <fstream>
 #include <vector>
 #include <unordered_set>
+#include <sstream>
 #include "Command.h"
-#include "IOFormatGuard.h"
 
 Command::Command(std::istream& in, std::ostream& out, Dictionary& dict) :
     out_(out),
@@ -11,7 +11,6 @@ Command::Command(std::istream& in, std::ostream& out, Dictionary& dict) :
 {}
 
 void Command::help() const {
-    IOFormatGuard guard(out_);
     out_ << "Available commands:\n" <<
     "help -- get this help message\n" <<
     "readFromFile <filename> -- read text from file\n" <<
@@ -38,7 +37,6 @@ std::string Command::readTextFromFile(const std::string& filename) const {
         }
         file.close();
     } else {
-        IOFormatGuard guard(out_);
         out_ << "Cannot open file: " << filename << "\n";
     }
 
@@ -69,7 +67,6 @@ void Command::readFromFile(const std::string& filename) {
 
     addWordsFromText(text);
 
-    IOFormatGuard guard(out_);
     out_ << "Words from file successfully added\n";
 }
 
@@ -86,8 +83,6 @@ inline void Command::addWordsFromText(const std::string& text) {
 
 void Command::printTable(std::ostream& out) const {
     const std::map<std::string, int>& table = dict_.getTable();
-    IOFormatGuard guard1(out);
-    IOFormatGuard guard2(out_);
 
     if (table.empty()) {
         out_ << "Dictionary is empty\n";
@@ -104,7 +99,6 @@ void Command::printTable() const {
 }
 
 void Command::printFrequency(std::ostream& out, const std::string& word) const {
-    IOFormatGuard guard(out);
     out << dict_.getCount(word);
 }
 
@@ -125,8 +119,6 @@ std::multimap<int, std::string, std::greater<>> Command::getSortedTable() const 
 
 void Command::printTop(std::ostream& out, int n) const {
     const std::multimap<int, std::string, std::greater<>>& sortedTable = getSortedTable();
-    IOFormatGuard guard1(out);
-    IOFormatGuard guard2(out_);
 
     if (sortedTable.empty()) {
         out_ << "Dictionary is empty\n";
@@ -145,8 +137,6 @@ void Command::printTop(int n) const {
 
 void Command::printEnd(std::ostream& out, int n) const {
     const std::multimap<int, std::string, std::greater<>>& sortedTable = getSortedTable();
-    IOFormatGuard guard1(out);
-    IOFormatGuard guard2(out_);
 
     if (sortedTable.empty()) {
         out_ << "Dictionary is empty\n";
@@ -164,7 +154,6 @@ void Command::printEnd(int n) const {
 }
 
 void Command::printCount(std::ostream& out) const {
-    IOFormatGuard guard(out);
     out << "Unique words count: " << dict_.getUniqueWordsCount() << "\n";
 }
 
@@ -173,8 +162,6 @@ void Command::printCount() const {
 }
 
 void Command::deleteWord(const std::string& word) {
-    IOFormatGuard guard(out_);
-
     if (dict_.getCount(word) == 0) {
         out_ << "No such word in dictionary\n";
         return;
@@ -188,7 +175,6 @@ std::string Command::readTextFromConsole() const {
     std::string text;
     std::string line;
 
-    IOFormatGuard guard(in_);
     while (std::getline(in_, line)) {
         text += line + "\n";
     }
@@ -197,7 +183,6 @@ std::string Command::readTextFromConsole() const {
 }
 
 void Command::enterText() {
-    IOFormatGuard guard(out_);
     out_ << "Enter the text (press Ctrl+Z on Windows or Ctrl+D on Unix to complete the input):\n";
 
     const std::string& text = readTextFromConsole();
@@ -236,6 +221,5 @@ void Command::intersection(const std::string& filename1, const std::string& file
     const std::vector<std::string>& commonWords = findCommonWords(words1, words2);
     addWords(commonWords);
 
-    IOFormatGuard guard(out_);
     out_ << "Words form intersection successfully added\n";
 }
