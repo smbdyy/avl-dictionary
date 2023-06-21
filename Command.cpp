@@ -61,7 +61,7 @@ std::vector<std::string> splitTextIntoWords(const std::string& text) {
     return words;
 }
 
-void Command::readFromFile(const std::string& filename) const {
+void Command::readFromFile(const std::string& filename) {
     std::string text = readTextFromFile(filename);
     if (text.empty()) return;
 
