@@ -17,8 +17,7 @@ public:
     void printCount() const;
     void deleteWord(const std::string& word);
     void enterText();
-    void printCommandToFile();
-    void intersection();
+    void intersection(const std::string& filename1, const std::string& filename2);
 private:
     Dictionary dict_;
     std::ostream& out_;
@@ -27,7 +26,8 @@ private:
     [[nodiscard]] std::string readTextFromFile(const std::string& filename) const;
     [[nodiscard]] std::multimap<int, std::string, std::greater<>> getSortedTable() const;
     [[nodiscard]] std::string readTextFromConsole() const;
-    void addWordsFromText(const std::string& text);
+    inline void addWordsFromText(const std::string& text);
+    inline void addWords(const std::vector<std::string>& words);
 };
 
 #endif

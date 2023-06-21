@@ -1,5 +1,6 @@
 #include <fstream>
 #include <vector>
+#include <unordered_set>
 #include "Command.h"
 #include "IOFormatGuard.h"
 
@@ -71,11 +72,15 @@ void Command::readFromFile(const std::string& filename) {
     out_ << "Words from file successfully added\n";
 }
 
-void Command::addWordsFromText(const std::string& text) {
-    const std::vector<std::string>& words = splitTextIntoWords(text);
+inline void Command::addWords(const std::vector<std::string>& words) {
     for (const auto& word : words) {
         dict_.insert(word);
     }
+}
+
+inline void Command::addWordsFromText(const std::string& text) {
+    const std::vector<std::string>& words = splitTextIntoWords(text);
+    addWords(words);
 }
 
 void Command::printTable() const {
@@ -176,4 +181,37 @@ void Command::enterText() {
 
     addWordsFromText(text);
     out_ << "Words from input successfully added";
+}
+
+std::vector<std::string> findCommonWords(
+        const std::vector<std::string>& words1,
+        const std::vector<std::string>& words2) {
+    std::unordered_set<std::string> wordsSet(words1.begin(), words1.end());
+    std::vector<std::string> commonWords;
+
+    for (const auto& word : words2) {
+        if (wordsSet.count(word) > 0) {
+            commonWords.push_back(word);
+        }
+    }
+
+    return commonWords;
+}
+
+void Command::intersection(const std::string& filename1, const std::string& filename2) {
+    const std::string& text1 = readTextFromFile(filename1);
+    const std::string& text2 = readTextFromFile(filename2);
+
+    if (text1.empty() || text2.empty()) {
+        return;
+    }
+
+    const std::vector<std::string>& words1 = splitTextIntoWords(text1);
+    const std::vector<std::string>& words2 = splitTextIntoWords(text2);
+
+    const std::vector<std::string>& commonWords = findCommonWords(words1, words2);
+    addWords(commonWords);
+
+    IOFormatGuard guard(out_);
+    out_ << "Words form intersection successfully added\n";
 }
