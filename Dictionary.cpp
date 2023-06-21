@@ -10,6 +10,7 @@ Dictionary::Node::Node(const std::string& word) {
 
 Dictionary::Dictionary() {
     root_ = nullptr;
+    uniqueWordsCount_ = 0;
 }
 
 std::map<std::string, int> Dictionary::getTable() const {
@@ -38,9 +39,9 @@ void Dictionary::insert(const std::string& word) {
     root_ = insertNode(root_, word);
 }
 
-
 Dictionary::Node* Dictionary::insertNode(Node* node, const std::string &word) {
     if (node == nullptr) {
+        uniqueWordsCount_++;
         return new Node(word);
     }
 

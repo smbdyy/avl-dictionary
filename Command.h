@@ -13,7 +13,7 @@ public:
     void printFrequency(const std::string& word) const;
     void printTop(int n) const;
     void printEnd(int n) const;
-    void printCount();
+    void printCount() const;
     void deleteWord();
     void enterText();
     void printCommandToFile();

@@ -133,3 +133,8 @@ void Command::printEnd(int n) const {
         out_ << it->second << " -- " << it->first << "\n";
     }
 }
+
+void Command::printCount() const {
+    IOFormatGuard guard(out_);
+    out_ << "Unique words count: " << dict_.getUniqueWordsCount();
+}

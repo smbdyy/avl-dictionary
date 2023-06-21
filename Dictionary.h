@@ -21,9 +21,11 @@ public:
 	void insert(const std::string& word);
 	[[nodiscard]] int getCount(const std::string& word) const;
     [[nodiscard]] std::map<std::string, int> getTable() const;
+    [[nodiscard]] int getUniqueWordsCount() const;
 
 private:
 	Node* root_;
+    int uniqueWordsCount_;
 
 	Node* insertNode(Node* node, const std::string& word);
     static void addWordToTable(std::map<std::string, int>& table, Node* node);
