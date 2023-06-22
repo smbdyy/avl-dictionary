@@ -160,5 +160,7 @@ void UserInterface::callPrintCommandToFileCommand(std::istringstream& commandInp
         return;
     }
 
-    mapCommand(commandInputStream);
+    mapCommand(commandInputStream, file);
+    out_ << "Command successfully printed to file\n";
+    file.close();
 }

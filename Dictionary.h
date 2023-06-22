@@ -30,6 +30,7 @@ private:
 
 	Node* insertNode(Node* node, const std::string& word);
     Node* deleteNode(Node* node, const std::string& word);
+    static Node* findMin(Node* node) ;
     static void addWordToTable(std::map<std::string, int>& table, Node* node);
 	static Node* rotateRight(Node* node);
 	static Node* rotateLeft(Node* node);

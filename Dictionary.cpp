@@ -88,27 +88,26 @@ Dictionary::Node* Dictionary::deleteNode(Node* node, const std::string& word) {
 
     if (word < node->word) {
         node->left = deleteNode(node->left, word);
-    }
-    else if (word > node->word) {
+    } else if (word > node->word) {
         node->right = deleteNode(node->right, word);
-    }
-    else {
-        Node* temp;
-        if (node->left == nullptr) {
-            temp = node->right;
+    } else {
+        if (node->left == nullptr && node->right == nullptr) {
+            delete node;
+            return nullptr;
+        } else if (node->left == nullptr) {
+            Node* temp = node->right;
+            delete node;
+            return temp;
         } else if (node->right == nullptr) {
-            temp = node->left;
+            Node* temp = node->left;
+            delete node;
+            return temp;
         } else {
-            temp = node->right;
-            while (temp->left != nullptr) {
-                temp = temp->left;
-            }
-            node->word = temp->word;
-            node->count = temp->count;
-            node->right = deleteNode(node->right, temp->word);
+            Node* successor = findMin(node->right);
+            node->word = successor->word;
+            node->count = successor->count;
+            node->right = deleteNode(node->right, successor->word);
         }
-        delete node;
-        return temp;
     }
 
     node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
@@ -127,6 +126,18 @@ Dictionary::Node* Dictionary::deleteNode(Node* node, const std::string& word) {
     if (balance < -1 && getBalance(node->right) > 0) {
         node->right = rotateRight(node->right);
         return rotateLeft(node);
+    }
+
+    return node;
+}
+
+Dictionary::Node* Dictionary::findMin(Node* node) {
+    if (node == nullptr) {
+        return nullptr;
+    }
+
+    while (node->left != nullptr) {
+        node = node->left;
     }
 
     return node;
